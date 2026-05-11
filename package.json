@@ -3,20 +3,38 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
-    "dev": "nodemon app.js"
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "mongoose": "^9.6.1",
+    "express-rate-limit": "^8.5.1",
+    "express-validator": "^7.3.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.2.0",
+    "mongoose": "^9.6.2",
     "moongoose": "^0.0.5",
+    "morgan": "^1.10.1",
+    "multer": "^2.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Developerfiyin/Recruitment-and-Job-Application-Tracking-System.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Developerfiyin/Recruitment-and-Job-Application-Tracking-System/issues"
+  },
+  "homepage": "https://github.com/Developerfiyin/Recruitment-and-Job-Application-Tracking-System#readme",
+  "devDependencies": {
     "nodemon": "^3.1.14"
   }
 }
