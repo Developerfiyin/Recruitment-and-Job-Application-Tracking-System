@@ -77,7 +77,7 @@ exports.updateUserById = async (req, res, next) => {
   try {
     const updatedUser = await userSchema.findByIdAndUpdate(
       id,
-      { name, email, password, role },
+      { name, email, password: hashedPassword, role },
       { new: true },
     );
     if (!updatedUser) {
@@ -94,7 +94,7 @@ exports.updateUserById = async (req, res, next) => {
   }
 };
 
-exports.deleteUser = async (req, res, next) => {
+exports.deleteUserById = async (req, res, next) => {
   const id = req.params;
   try {
     const user = await userSchema.findByIdAndDelete(id);
@@ -103,7 +103,6 @@ exports.deleteUser = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
     res.status(200).json({ message: "User deleted successfully" });
-    console.error("Error deleting user:", error);
   } catch (error) {
     next(error);
     res.status(500).json({
