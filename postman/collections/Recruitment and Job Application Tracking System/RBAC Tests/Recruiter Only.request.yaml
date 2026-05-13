@@ -1,0 +1,8 @@
+$kind: http-request
+name: Recruiter Only
+method: GET
+url: '{{baseUrl}}/api/rbac/recruiter-only'
+order: 2000
+headers:
+  - key: Authorization
+    value: 'Bearer {{token}}'

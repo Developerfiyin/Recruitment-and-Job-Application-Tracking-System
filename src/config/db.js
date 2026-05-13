@@ -14,12 +14,10 @@ const connectDB = async () => {
       console.log("Using public DNS for SRV resolution:", dns.getServers());
     }
 
-    console.log(mongoUri);
-
     await mongoose.connect(mongoUri, {
-      serverSelectionTimeoutMS: 10000,
+      serverSelectionTimeoutMS: 30000,
       socketTimeoutMS: 45000,
-      connectTimeoutMS: 10000,
+      connectTimeoutMS: 30000,
       family: 4,
     });
 
