@@ -21,6 +21,12 @@ const userSchema = new mongoose.Schema(
       minlength: 8,
       select: false, // hide password by default
     },
+
+    role: {
+      type: String,
+      enum: ['ADMIN', 'RECRUITER', 'APPLICANT'],
+      default: 'APPLICANT',
+    },
   },
   { timestamps: true }
 );

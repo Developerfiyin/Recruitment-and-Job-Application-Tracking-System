@@ -21,6 +21,11 @@ exports.registerValidator = [
     .withMessage("Password must contain at least one lowercase letter")
     .matches(/[A-Z]/)
     .withMessage("Password must contain at least one uppercase letter"),
+
+  body("role")
+    .optional()
+    .isIn(["ADMIN", "RECRUITER", "APPLICANT"])
+    .withMessage("Role must be ADMIN, RECRUITER, or APPLICANT"),
 ];
 
 exports.loginValidator = [

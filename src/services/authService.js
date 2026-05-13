@@ -14,9 +14,10 @@ exports.registerUser = async (data) => {
     name: data.name,
     email: data.email,
     password: hashedPassword,
+    role: data.role,
   });
 
-  const token = generateToken(user._id);
+  const token = generateToken(user);
 
   return { user, token };
 };
@@ -34,7 +35,7 @@ exports.loginUser = async (email, password) => {
     throw new Error('Invalid credentials');
   }
 
-  const token = generateToken(user._id);
+  const token = generateToken(user);
 
   return { user, token };
 };

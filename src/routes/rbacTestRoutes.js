@@ -2,24 +2,12 @@ const express = require("express");
 
 const router = express.Router();
 
+const { protect: authMiddleware } = require("../middleware/authMiddleware");
 const authorizeRoles = require("../middleware/roleMiddleware");
-
-// Temporary fake authentication middleware
-const fakeAuth = (role) => {
-  return (req, res, next) => {
-    req.user = {
-      id: "123456",
-      role: role,
-    };
-
-    next();
-  };
-};
-
 
 router.get(
   "/admin-only",
-  fakeAuth("ADMIN"),
+  authMiddleware,
   authorizeRoles("ADMIN"),
   (req, res) => {
     res.status(200).json({
@@ -32,7 +20,7 @@ router.get(
 
 router.get(
   "/recruiter-only",
-  fakeAuth("RECRUITER"),
+  authMiddleware,
   authorizeRoles("RECRUITER"),
   (req, res) => {
     res.status(200).json({
@@ -45,7 +33,7 @@ router.get(
 
 router.get(
   "/applicant-only",
-  fakeAuth("APPLICANT"),
+  authMiddleware,
   authorizeRoles("APPLICANT"),
   (req, res) => {
     res.status(200).json({
@@ -58,7 +46,7 @@ router.get(
 
 router.get(
   "/manage-jobs",
-  fakeAuth("APPLICANT"),
+  authMiddleware,
   authorizeRoles("ADMIN", "RECRUITER"),
   (req, res) => {
     res.status(200).json({
