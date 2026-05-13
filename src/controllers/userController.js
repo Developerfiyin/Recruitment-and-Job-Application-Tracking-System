@@ -1,8 +1,8 @@
-const express = require('express'); 
-const moongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const express = require("express");
+const moongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-const userSchema = require('../models/User');
+const userSchema = require("../models/User");
 
 exports.createUser = async (req, res, next) => {
   try {
@@ -10,31 +10,40 @@ exports.createUser = async (req, res, next) => {
 
     const existingEmail = await userSchema.findOne({ email });
     if (existingEmail) {
-      return res.status(400).json({ message: 'User with this email already exists' });
+      return res
+        .status(400)
+        .json({ message: "User with this email already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 40);
 
-    const newUser = await userSchema.create({ name, email, password: hashedPassword, role });
+    const newUser = await userSchema.create({
+      name,
+      email,
+      password: hashedPassword,
+      role,
+    });
     if (!newUser) {
-      return res.status(500).json({ message: 'Failed to create user' });
+      return res.status(500).json({ message: "Failed to create user" });
     }
 
-    res.status(201).json({ message: 'User created successfully'});
-
-
-
+    res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    next(error)
-    res.status(500).json({ message: 'An error occurred while creating the user' });
+    next(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while creating the user" });
   }
 };
 
-// exports.getAllUsers = async (req, res, next) => {
-//   try {
-//     const users = await userSchema.find();
-//     res.json(users);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const users = await userSchema.find().sort({ name: 1 });
+    res.status(200).json({message: "Users fetched successfully", users});
+  } catch (error) {
+    next(error);
+    res
+      .status(500)
+      .json({ message: "An error occurred while fetching all users", data: error });
+  }
+};
