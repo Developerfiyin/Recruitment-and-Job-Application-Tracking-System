@@ -42,13 +42,11 @@ exports.getAllUsers = async (req, res, next) => {
     res.status(200).json({ message: "Users fetched successfully", users });
   } catch (error) {
     next(error);
-    res
-      .status(500)
-      .json({
-        message: "An error occurred while fetching all users",
-        data: error,
-      });
-      console.error("Error fetching all users:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching all users",
+      data: error,
+    });
+    console.error("Error fetching all users:", error);
   }
 };
 
@@ -64,63 +62,54 @@ exports.getUserById = async (req, res, next) => {
     res.status(200).json({ message: "User fetched successfully", user });
   } catch (error) {
     next(error);
-    res
-      .status(500)
-      .json({
-        message: "An error occurred while fetching the user by ID",
-        data: error,
-      });
-      console.error("Error fetching user by ID:", error);
+    res.status(500).json({
+      message: "An error occurred while fetching the user by ID",
+      data: error,
+    });
+    console.error("Error fetching user by ID:", error);
   }
 };
 
 exports.updateUserById = async (req, res, next) => {
-    const id = req.params;
-    const { name, email, password, role } = req.body;
+  const id = req.params;
+  const { name, email, password, role } = req.body;
 
-    try {
-        const updatedUser = await userSchema.findByIdAndUpdate(
-            id,
-            { name, email, password, role },
-            { new: true }
-        );
-        if (!updatedUser) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        res.status(200).json({ message: "User updated successfully", updatedUser });
-    } catch (error) {
-        next(error);
-        res
-            .status(500)
-            .json({
-                message: "An error occurred while updating the user",
-                data: error,
-            });
-            console.error("Error updating user:", error);
+  try {
+    const updatedUser = await userSchema.findByIdAndUpdate(
+      id,
+      { name, email, password, role },
+      { new: true },
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
     }
+    res.status(200).json({ message: "User updated successfully", updatedUser });
+  } catch (error) {
+    next(error);
+    res.status(500).json({
+      message: "An error occurred while updating the user",
+      data: error,
+    });
+    console.error("Error updating user:", error);
+  }
 };
 
-
 exports.deleteUser = async (req, res, next) => {
-    const id = req.params;
-        try {
-            const user = await userSchema.findByIdAndDelete(id);
+  const id = req.params;
+  try {
+    const user = await userSchema.findByIdAndDelete(id);
 
-            if (!user) {
-                return res.status(404).json({ message: "User not found" });
-            }
-            res.status(200).json({ message: "User deleted successfully" });
-            console.error("Error deleting user:", error);
-            
-        } catch (error) {
-            next(error);
-            res
-                .status(500)
-                .json({
-                    message: "An error occurred while deleting the user",
-                    data: error,
-                });
-                console.error("Error deleting user:", error);
-
-        }
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.status(200).json({ message: "User deleted successfully" });
+    console.error("Error deleting user:", error);
+  } catch (error) {
+    next(error);
+    res.status(500).json({
+      message: "An error occurred while deleting the user",
+      data: error,
+    });
+    console.error("Error deleting user:", error);
+  }
 };
