@@ -1,8 +1,0 @@
-$kind: http-request
-name: Admin Only
-method: GET
-url: '{{baseUrl}}/api/rbac/admin-only'
-order: 1000
-headers:
-  - key: Authorization
-    value: 'Bearer {{token}}'

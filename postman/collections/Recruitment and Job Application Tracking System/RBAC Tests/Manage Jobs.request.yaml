@@ -1,8 +1,0 @@
-$kind: http-request
-name: Manage Jobs
-method: GET
-url: '{{baseUrl}}/api/rbac/manage-jobs'
-order: 4000
-headers:
-  - key: Authorization
-    value: 'Bearer {{token}}'
