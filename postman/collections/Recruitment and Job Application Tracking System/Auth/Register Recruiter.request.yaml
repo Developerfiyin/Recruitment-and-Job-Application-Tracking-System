@@ -1,0 +1,17 @@
+$kind: http-request
+name: Register Recruiter
+method: POST
+url: '{{baseUrl}}/api/auth/register'
+order: 2000
+headers:
+  - key: Content-Type
+    value: application/json
+body:
+  type: json
+  content: |-
+    {
+      "name": "Recruiter User",
+      "email": "recruiter@test.com",
+      "password": "Password123",
+      "role": "RECRUITER"
+    }
