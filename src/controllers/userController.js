@@ -73,3 +73,27 @@ exports.getUserById = async (req, res, next) => {
       console.error("Error fetching user by ID:", error);
   }
 };
+
+exports.deleteUser = async (req, res, next) => {
+    const id = req.params;
+        try {
+            const user = await userSchema.findByIdAndDelete(id);
+
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+            }
+            res.status(200).json({ message: "User deleted successfully" });
+            console.error("Error deleting user:", error);
+            
+        } catch (error) {
+            next(error);
+            res
+                .status(500)
+                .json({
+                    message: "An error occurred while deleting the user",
+                    data: error,
+                });
+                console.error("Error deleting user:", error);
+
+        }
+};
