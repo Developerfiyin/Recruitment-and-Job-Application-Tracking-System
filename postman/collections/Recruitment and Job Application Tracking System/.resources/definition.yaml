@@ -1,7 +1,0 @@
-$kind: collection
-name: Recruitment and Job Application Tracking System
-description: API routes for authentication and role-based access control testing.
-variables:
-  - key: baseUrl
-    value: http://localhost:5000
-    type: string
