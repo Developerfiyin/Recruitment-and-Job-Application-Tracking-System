@@ -15,23 +15,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: "An internal server error occurred" });
 });
 
-app.use('/api/user', userRoute); 
-
-
-
-
-
-// Base path configuration
-
-
-
-// app.use((err, req, res, next) => {
-//   console.error(err.stack);
-//   res.status(500).send('Something went wrong!');
-// });
-
-
-
+app.use("/api/user", userRoute);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

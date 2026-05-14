@@ -51,26 +51,7 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-// exports.getUserById = async (req, res, next) => {
-//   const id = req.params.id;
-//   try {
-//     const user = await userSchema.findById(id);
-//     if (!user) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//     res.status(200).json({ message: "User fetched successfully", user });
-//   } catch (error) {
-//     next(error);
-//     res.status(500).json({
-//       message: "An error occurred while fetching the user by ID",
-//       data: error,
-//     });
-//     console.error("Error fetching user by ID:", error);
-//   }
-// };
-
 exports.getUserById = async (req, res, next) => {
-  // 1. Destructure the specific parameter property
   const { id } = req.params;
 
   try {
@@ -84,49 +65,18 @@ exports.getUserById = async (req, res, next) => {
   } catch (error) {
     console.error("Error fetching user by ID:", error);
 
-    // 2. Pass to global error middleware OR send response directly. Do not do both.
     return next(error);
   }
 };
 
-// exports.updateUserById = async (req, res, next) => {
-//   const id = req.params.id;
-//   const { name, email, password, role } = req.body;
-//   try {
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     const updatedUser = await userSchema.findByIdAndUpdate(
-//       id,
-//       { name, email, password: hashedPassword, role },
-//       { new: true },
-//     );
-//     res.status(200).json({ message: "User updated successfully", updatedUser });
-
-//     if (!updatedUser) {
-//       return res.status(404).json({ message: "User not found" });
-//     }
-//   } catch (error) {
-//     next(error);
-//     res.status(500).json({
-//       message: "An error occurred while updating the user",
-//       data: error,
-//     });
-//     console.error("Error updating user:", error);
-//   }
-// };
-
-
-
-// Ensure mongoose and bcrypt are imported at the top of your file
 exports.updateUserById = async (req, res, next) => {
   const { id } = req.params;
   const { name, email, password, role } = req.body || {};
 
-  // 1. Intercept manual parameter typos (like ":id") before Mongoose tries to query them
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ 
+    return res.status(400).json({
       error: "Bad Request",
-      message: `The provided route parameter value "${id}" is not a valid 24-character hexadecimal MongoDB ObjectId.` 
+      message: `The provided route parameter value "${id}" is not a valid 24-character hexadecimal MongoDB ObjectId.`,
     });
   }
 
@@ -137,30 +87,28 @@ exports.updateUserById = async (req, res, next) => {
     if (role) updateFields.role = role;
 
     if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10); 
-      updateFields.password = hashedPassword; 
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updateFields.password = hashedPassword;
     }
 
-    // 2. Swapped { new: true } for { returnDocument: 'after' } to fix the Mongoose deprecation warning
     const updatedUser = await userSchema.findByIdAndUpdate(
-      id, 
-      { $set: updateFields }, 
-      { returnDocument: 'after', runValidators: true }
+      id,
+      { $set: updateFields },
+      { returnDocument: "after", runValidators: true },
     );
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    return res.status(200).json({ message: "User updated successfully", user: updatedUser });
-
+    return res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
   } catch (error) {
     console.error("Error updating user:", error);
-    return next(error); 
+    return next(error);
   }
 };
-
-
 
 exports.deleteUserById = async (req, res, next) => {
   const { id } = req.params;
