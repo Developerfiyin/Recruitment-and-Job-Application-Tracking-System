@@ -1,8 +1,0 @@
-$kind: http-request
-name: Applicant Only
-method: GET
-url: '{{baseUrl}}/api/rbac/applicant-only'
-order: 3000
-headers:
-  - key: Authorization
-    value: 'Bearer {{token}}'
