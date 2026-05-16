@@ -22,7 +22,7 @@ exports.createUser = async (req, res, next) => {
       email,
       password: hashedPassword,
       role,
-    });
+    }); 
     res.status(201).json({ message: "User created successfully" });
 
     if (!newUser) {
