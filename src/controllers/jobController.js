@@ -97,8 +97,11 @@ const updateJob = async (req, res) => {
         .json({ success: false, message: "Not authorized to update this job" });
     }
 
-    const updated = await Job.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
+    const updated = await Job.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    {
+      returnDocument: "after",
       runValidators: true,
     });
 

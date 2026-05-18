@@ -17,14 +17,17 @@ const {
 
 const { handleValidationErrors } = require("../middleware/validationMiddleware");
 
-// ─── Public Routes ─────────────────────────────────────────────────────────
-router.get("/", getAllJobs);
-router.get("/my-jobs", getMyJobs);
-router.get("/:id", getJobById);
+const { protect } = require("../middleware/authMiddleware");
 
 // ─── Protected Routes (auth commented out until auth branch is merged) ─────
-router.post("/", validateCreateJob, handleValidationErrors, createJob);
-router.put("/:id", validateUpdateJob, handleValidationErrors, updateJob);
-router.delete("/:id", deleteJob);
+router.get("/my-jobs", protect, getMyJobs);
+router.post("/", protect, validateCreateJob, handleValidationErrors, createJob);
+router.put("/:id", protect, validateUpdateJob, handleValidationErrors, updateJob);
+router.delete("/:id", protect, deleteJob);
+
+// ─── Public Routes ─────────────────────────────────────────────────────────
+router.get("/all-jobs", getAllJobs);
+
+router.get("/:id", getJobById);
 
 module.exports = router;
